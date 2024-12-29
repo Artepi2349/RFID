@@ -3,7 +3,7 @@ import pandas as pd
 import serial
 ser = serial.Serial('COM4', 9600)
 
-xl1 = pd.read_excel('C:/Users/Artem V/PycharmProjects/pythonProject/ПредПроф/pandas.xlsx') #Путь к таблице
+xl1 = pd.read_excel('C:/Users/Artem V/PycharmProjects/pythonProject/ПредПроф/RFID/database.xlsx') #Путь к таблице
 data = time.localtime(time.time())
 
 UID_match = 0  # Проверка совпадения UID
