@@ -2,7 +2,7 @@
 #include <SPI.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-#include <Servo.h>
+#include <Stepper.h>
 
 #define SS_PIN 10
 #define RST_PIN 9
@@ -13,15 +13,15 @@
 
 #define OLED_RESET 4
 
-#define SOUND_PIN 8
+#define STEPS 32
  
 MFRC522 rfid(SS_PIN, RST_PIN); // Instance of the class
 
 MFRC522::MIFARE_Key key; 
 
-Servo servo1;
-
 Adafruit_SSD1306 display(OLED_RESET);
+
+Stepper stepper(STEPS, 5, 7, 6, 8);
 
 int code[] = {225,243,51,3}; //This is the stored UID
 int codeRead = 0;
@@ -34,8 +34,6 @@ void setup() {
   Serial.begin(9600);
   SPI.begin(); // Init SPI bus
   rfid.PCD_Init(); // Init MFRC522 
-  
-  pinMode (SOUND_PIN, OUTPUT); // Для динамика пин 3 в режиме работы выхода
 
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // initialize with the I2C addr 0x3D (for the 128x64)
 
@@ -48,7 +46,7 @@ void setup() {
   pinMode(greenLED, OUTPUT);
   pinMode(redLED, OUTPUT);
 
-  servo1.attach(7);
+  stepper.setSpeed(200);
 
 }
 
@@ -66,22 +64,19 @@ void loop() {
         access = "denied";
         oledOut("Разрешён");
         GLED();
-        openGatesSound();
-        openGatesServo();
+        openGatesStep();
         delay(2000);
         startWork();
       }
       if (access == "dateout") {
         BLED();
         oledOut("Истёк");
-        dateoutSound();
         delay(2000);
         startWork();
       }
       if (access == "notfind") {
         RLED();
         oledOut("Нет в бд");
-        notFindSound();
         delay(2000);
         startWork();
       }
@@ -90,20 +85,8 @@ void loop() {
   delay(100);
 }
 
-void openGatesServo() {
-  servo1.write(90);  
-}
-
-void openGatesSound() {   
-  tone(SOUND_PIN, 1250, 2000);
-}
-
-void notFindSound() {   
-  tone(SOUND_PIN, 750, 2000);
-}
-
-void dateoutSound() {   
-  tone(SOUND_PIN, 1000, 2000);
+void openGatesStep() {  
+  stepper.step(1000);
 }
 
 void RLED() {
@@ -169,8 +152,7 @@ void startWork() {
   display.setCursor(10,8); 
   display.print(utf8rus("Закрыто")); //максимум 9 символов в строке с размером текста 2
   display.display();
-
-  servo1.write(0);
+  stepper.step(-1000);
 }
 
 String utf8rus(String source)
