@@ -1,92 +1,120 @@
-#include <MFRC522.h>
-#include <SPI.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
-#include <Stepper.h>
+#include <RFID.h> // Библиотека для работы с RFID-считывателем
+#include <SPI.h> // Библиотека для обмена данными между платой Arduino и подключенными устройствами
+#include <Adafruit_GFX.h> // Библиотека для ядра графики
+#include <Adafruit_SSD1306.h> // Библиотека драйверов для дисплеев 128x64 и 128x32
+#include <Stepper.h> // Библиотека для работы с шаговым мотором
+#include <NewPing.h> // Библиотека для работы с датчиком расстояния
 
-#define SS_PIN 10
-#define RST_PIN 9
+#define SS_PIN 9 // Подключение пина SDA для RFID-считвателя
+#define RST_PIN 8 // Подключение пина RESET для RFID-считвателя
 
-#define blueLED 2
+// Подключение пинов RGB-светодиода
+#define blueLED 2 
 #define greenLED 3
 #define redLED 4
 
-#define OLED_RESET 4
+#define OLED_RESET 20  // Подключение пина SDA OLED-экрана
 
-#define STEPS 32
+// Количество шагов на оборот внутреннего двигателя в 4- х ступенчатом режиме
+#define STEPS_PER_MOTOR_REVOLUTION 32     
+// Число ступеней на оборот выходного вала (=редуктор; 2048 ступеней)
+#define STEPS_PER_OUTPUT_REVOLUTION 32 * 64
+
+#define PIN_TRIG 43 // Подключение пина TRIG датчика расстояния
+#define PIN_ECHO 41 // Подключение пина ECHO датчика расстояния
+#define MAX_DISTANCE 200 // Константа для определения максимального расстояния, которое мы будем считать корректным
+
+// Создаем объект, методами которого будем затем пользоваться для получения расстояния
+// В качестве параметров передаем номера пинов, к которым подключены выходы ECHO и TRIG датчика
+NewPing sonar(PIN_TRIG, PIN_ECHO, MAX_DISTANCE);
  
-MFRC522 rfid(SS_PIN, RST_PIN); // Instance of the class
+// Создаем объект, методами которого будем затем пользоваться для получения UID
+// В качестве параметров передаем номера пинов, к которым подключены выходы SDA и RESET RFID-считывателя
+RFID RC522(SS_PIN, RST_PIN); 
 
-MFRC522::MIFARE_Key key; 
-
+// Создаем объект, методами которого будем затем пользоваться для вывода сообщений на экран
+// В качестве параметров передаем номер пина, к которому подключён выход SDA OLED-экрана
 Adafruit_SSD1306 display(OLED_RESET);
 
-Stepper stepper(STEPS, 5, 7, 6, 8);
+// Создаем объект, методами которого будем затем пользоваться для открытия калитки
+// В качестве параметров передаем количество шагов и номера пинов, к которым подключены выходы мотора
+Stepper stepper(STEPS_PER_MOTOR_REVOLUTION, 10, 12, 11, 13);
 
-int code[] = {225,243,51,3}; //This is the stored UID
-int codeRead = 0;
-String access = "denied";
-String uidString = "";
-String lastUID = "";
+String access = "denied"; // Переменная для РЗД
+String uidString = ""; // Переменная для хранения UID, получаемого с RFID-считывателя
+String lastUID = ""; // Переменная для хранения UID последнего пропущенного на территорию пользователя
+
+int Steps2Take  =  STEPS_PER_OUTPUT_REVOLUTION / 2;  // Повернуть CW 1/2 оборота
+
+                 
 
 void setup() {
   
   Serial.begin(9600);
   SPI.begin(); // Init SPI bus
-  rfid.PCD_Init(); // Init MFRC522 
+  RC522.init(); // Init MFRC522 
 
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // initialize with the I2C addr 0x3D (for the 128x64)
 
   display.cp437(true); // для русского текста
 
   // Clear the buffer.
-  startWork();
+  closeState();
 
   pinMode(blueLED, OUTPUT);
   pinMode(greenLED, OUTPUT);
   pinMode(redLED, OUTPUT);
 
-  stepper.setSpeed(200);
+  stepper.setSpeed(1000);
 
 }
 
 void loop() {
-  if(  rfid.PICC_IsNewCardPresent())
-  {
-      readRFID();
-
-      if (Serial.available() > 0) {
-        access = Serial.readString();
-        oledOut("Проверка");
+  if(RC522.isCard()) {
+    readRFID();
+    delay(50);
+    if (Serial.available() > 0) {
+      access = Serial.readString();
+      oledOut("Проверка");
+    }
+    if (access == "granted") {
+      access = "denied";
+      oledOut("Разрешён");
+      GLED();
+      openGatesStep();
+      unsigned int distance = 70;
+      while (distance>50) {
+      distance = sonar.ping_cm();
+      delay(500);
       }
-    
-      if (access == "granted") {
-        access = "denied";
-        oledOut("Разрешён");
-        GLED();
-        openGatesStep();
-        delay(2000);
-        startWork();
+      while (distance<50) {
+        distance = sonar.ping_cm();
+        delay(500);
       }
-      if (access == "dateout") {
-        BLED();
-        oledOut("Истёк");
-        delay(2000);
-        startWork();
-      }
-      if (access == "notfind") {
-        RLED();
-        oledOut("Нет в бд");
-        delay(2000);
-        startWork();
-      }
+      closeGatesStep();
+      closeState(); 
+    }
+    if (access == "dateout") {
+      BLED();
+      oledOut("Истёк");
+      delay(2000);
+      closeState();
+    }
+    if (access == "notfind") {
+      RLED();
+      oledOut("Нет в бд");
+      delay(2000);
+      closeState();
+    }
   }
-  
-  delay(100);
 }
 
-void openGatesStep() {  
-  stepper.step(1000);
+void openGatesStep() {   
+  stepper.step(Steps2Take);
+}
+
+void closeGatesStep() {
+  stepper.step(-Steps2Take); 
 }
 
 void RLED() {
@@ -110,19 +138,13 @@ void GLED() {
 void readRFID()
 {
   
-  rfid.PICC_ReadCardSerial();
-  uidString = String(rfid.uid.uidByte[0])+"-"+String(rfid.uid.uidByte[1])+"-"+String(rfid.uid.uidByte[2])+ "-"+String(rfid.uid.uidByte[3]);
+  RC522.readCardSerial();
+  uidString = String(RC522.serNum[0] + String("-") + RC522.serNum[1] + String("-") + RC522.serNum[2] + String("-") + RC522.serNum[3]);
   
   if (uidString !=  lastUID) {
     Serial.println(uidString);
     lastUID = uidString;
   }
-
-  // Halt PICC
-  rfid.PICC_HaltA();
-
-  // Stop encryption on PCD
-  rfid.PCD_StopCrypto1();
 }
 
 void oledOut(String s) {
@@ -143,7 +165,7 @@ void oledOut(String s) {
   display.display();
 }
 
-void startWork() {
+void closeState() {
   RLED();
   display.clearDisplay();
   display.display();
@@ -152,11 +174,9 @@ void startWork() {
   display.setCursor(10,8); 
   display.print(utf8rus("Закрыто")); //максимум 9 символов в строке с размером текста 2
   display.display();
-  stepper.step(-1000);
 }
 
-String utf8rus(String source)
-{
+String utf8rus(String source) {
   int i,k;
   String target;
   unsigned char n;
