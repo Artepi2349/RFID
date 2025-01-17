@@ -1,9 +1,11 @@
-#include <Key.h>
+//#include <Key.h>
 #include <Keypad.h>
 #include <Servo.h>
 #include <NewPing.h> // Библиотека для работы с датчиком расстояния
 
 #define servoPin 4
+
+#define soundPin 13
 
 #define PIN_TRIG 3 // Подключение пина TRIG датчика расстояния
 #define PIN_ECHO 2 // Подключение пина ECHO датчика расстояния
@@ -39,6 +41,7 @@ NewPing sonar(PIN_TRIG, PIN_ECHO, MAX_DISTANCE);
 void setup() {
   Serial.begin(9600);
   Servo1.attach(servoPin);
+  pinMode(soundPin, OUTPUT);
 }
 
 void loop() {
@@ -47,11 +50,16 @@ void loop() {
     buttons[k] = customKey; // сохраняем значение кнопки в массиве
     Serial.print(customKey);
     k = k + 1; // увеличиваем счётчик нажатий на 1
+    digitalWrite(soundPin, 50);
+    delay(20);
+    digitalWrite(soundPin, 0);
     if (k == 4) { 
       if (buttons[0] == pass[0] && buttons[1] == pass[1] && buttons[2] == pass[2] && buttons[3] == pass[3]) { 
         Serial.print("Access granted!"); // если пароль совпал
         k=0;
         Servo1.write(0);
+        delay(2000);
+        Servo1.write(90);
         unsigned int distance = 30;
         while (distance>25) {
           distance = sonar.ping_cm();
@@ -63,6 +71,8 @@ void loop() {
           Serial.print(distance);
           delay(500);
         }
+        Servo1.write(180);
+        delay(2000);
         Servo1.write(90);
       }
       else {
