@@ -5,7 +5,7 @@
 
 #define servoPin 4
 
-#define soundPin 13
+#define soundPin 5
 
 #define PIN_TRIG 3 // Подключение пина TRIG датчика расстояния
 #define PIN_ECHO 2 // Подключение пина ECHO датчика расстояния
