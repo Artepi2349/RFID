@@ -28,7 +28,7 @@ UID1 = xl1.iloc[0, 1]
 UID2 = xl1.iloc[1, 1]
 UID3 = xl1.iloc[2, 1]
 
-while True:
+while True: 
     UID_match = 0
     data_match = 0
 

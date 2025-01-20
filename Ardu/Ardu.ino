@@ -3,6 +3,7 @@
 #include <Adafruit_GFX.h> // Библиотека для ядра графики
 #include <Adafruit_SSD1306.h> // Библиотека драйверов для дисплеев 128x64 и 128x32
 #include <Stepper.h> // Библиотека для работы с шаговым мотором
+#include <AccelStepper.h>
 #include <NewPing.h> // Библиотека для работы с датчиком расстояния
 
 #define SS_PIN 9 // Подключение пина SDA для RFID-считвателя
@@ -12,6 +13,9 @@
 #define blueLED 2 
 #define greenLED 3
 #define redLED 4
+
+#define buttonPinOpen 7
+#define buttonPinClose 6
 
 #define OLED_RESET 20  // Подключение пина SDA OLED-экрана
 
@@ -39,14 +43,16 @@ Adafruit_SSD1306 display(OLED_RESET);
 // Создаем объект, методами которого будем затем пользоваться для открытия калитки
 // В качестве параметров передаем количество шагов и номера пинов, к которым подключены выходы мотора
 Stepper stepper(STEPS_PER_MOTOR_REVOLUTION, 10, 12, 11, 13);
+AccelStepper mystepper(STEPS_PER_MOTOR_REVOLUTION, 10, 12, 11, 13);
 
 String access = "denied"; // Переменная для РЗД
 String uidString = ""; // Переменная для хранения UID, получаемого с RFID-считывателя
 String lastUID = ""; // Переменная для хранения UID последнего пропущенного на территорию пользователя
 
-int Steps2Take  =  STEPS_PER_OUTPUT_REVOLUTION / 2;  // Повернуть CW 1/2 оборота
-
-                 
+int Steps2Take  =  STEPS_PER_OUTPUT_REVOLUTION / 8;  // Повернуть CW 1/8 оборота
+int buttonStateOpen = digitalRead(buttonPinOpen);
+int buttonStateClose = digitalRead(buttonPinClose);
+int close = 1;               
 
 void setup() {
   
@@ -67,6 +73,9 @@ void setup() {
 
   stepper.setSpeed(1000);
 
+  pinMode(buttonPinOpen, INPUT_PULLUP);
+  pinMode(buttonPinClose, INPUT_PULLUP);
+
 }
 
 void loop() {
@@ -82,17 +91,24 @@ void loop() {
       oledOut("Разрешён");
       GLED();
       openGatesStep();
-      unsigned int distance = 70;
-      while (distance>50) {
-      distance = sonar.ping_cm();
-      delay(500);
-      }
-      while (distance<50) {
+      buttonStateOpen = 1;
+      unsigned int distance = 30;
+      while (distance>25) {
         distance = sonar.ping_cm();
         delay(500);
       }
-      closeGatesStep();
-      closeState(); 
+      while (distance<25) {
+        distance = sonar.ping_cm();
+        delay(500);
+      }
+      while (close == 1) {
+        close = 0;
+        closeGatesStep();
+      }
+      closeState();                   
+      buttonStateClose = 1;
+      buttonStateOpen = 1;
+      close=1;
     }
     if (access == "dateout") {
       BLED();
@@ -109,12 +125,39 @@ void loop() {
   }
 }
 
-void openGatesStep() {   
-  stepper.step(Steps2Take);
+void openGatesStep() {
+  while (buttonStateOpen != 0) {
+    stepper.step(Steps2Take);
+    buttonStateOpen = digitalRead(buttonPinOpen);
+  }  
 }
 
 void closeGatesStep() {
-  stepper.step(-Steps2Take); 
+  while (buttonStateClose != 0) {
+    stepper.step(-Steps2Take);
+    buttonStateClose = digitalRead(buttonPinClose);
+    unsigned int distance = 70;
+    distance = sonar.ping_cm();
+    if (distance < 25) {
+      mystepper.stop();
+      unsigned int distance = 30;
+      while (distance>25) {
+        distance = sonar.ping_cm();
+        delay(500);
+      }
+      while (distance<25) {
+        distance = sonar.ping_cm();
+        delay(500);
+      }
+      buttonStateClose = 1;
+      //while (buttonStateOpen != 0) {
+        //stepper.step(Steps2Take);
+        //buttonStateOpen = digitalRead(buttonPinOpen);
+        //close = 1;
+      //}
+      //buttonStateOpen = 1;
+    }
+  }
 }
 
 void RLED() {
