@@ -7,6 +7,8 @@
 
 #define soundPin 5
 
+#define buttonPin 13
+
 #define PIN_TRIG 3 // Подключение пина TRIG датчика расстояния
 #define PIN_ECHO 2 // Подключение пина ECHO датчика расстояния
 #define MAX_DISTANCE 200 // Константа для определения максимального расстояния, которое мы будем считать корректным
@@ -25,14 +27,14 @@ byte rowPins[ROWS] = {12, 11, 10, 9}; // к каким выводам подкл
 byte colPins[COLS] = {8, 7, 6}; // к каким выводам подключаем управление столбцами
 
 char pass[4] = {'7', '3', '1', '5'}; // верный пароль
-char buttons[5]; // массив нажатых кнопок
+char buttons[4]; // массив нажатых кнопок
 int k = 0; // счетчик нажатий
 unsigned int distance; // Переменная для хранения расстояния от стойки калитки
-
+int buttonState = digitalRead(buttonPin);
 
 Servo Servo1;
 
-Keypad customKeypad = Keypad( makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS);
+Keypad customKeypad = Keypad(makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS);
 
 // Создаем объект, методами которого будем затем пользоваться для получения расстояния
 // В качестве параметров передаем номера пинов, к которым подключены выходы ECHO и TRIG датчика
@@ -42,9 +44,14 @@ void setup() {
   Serial.begin(9600);
   Servo1.attach(servoPin);
   pinMode(soundPin, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
 }
 
 void loop() {
+  buttonState = digitalRead(buttonPin);
+  if (buttonState == 0) {
+    exit(0);
+  }
   char customKey = customKeypad.getKey();
   if (customKey) {
     buttons[k] = customKey; // сохраняем значение кнопки в массиве
@@ -80,5 +87,11 @@ void loop() {
         k=0;
       }
     }
+  }
+}
+void yield() {
+  buttonState = digitalRead(buttonPin);
+  if (buttonState == 0) {
+    exit(0);
   }
 }
