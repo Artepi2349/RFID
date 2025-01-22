@@ -14,6 +14,7 @@
 #define greenLED 3
 #define redLED 4
 
+#define buttonPinEmergencyShutdown 5
 #define buttonPinOpen 7
 #define buttonPinClose 6
 
@@ -52,6 +53,7 @@ String lastUID = ""; // Переменная для хранения UID пос�
 int Steps2Take  =  STEPS_PER_OUTPUT_REVOLUTION / 8;  // Повернуть CW 1/8 оборота
 int buttonStateOpen = digitalRead(buttonPinOpen);
 int buttonStateClose = digitalRead(buttonPinClose);
+int buttonStateEmergencyShutdown = digitalRead(buttonPinEmergencyShutdown);
 int close = 1;               
 
 void setup() {
@@ -75,10 +77,17 @@ void setup() {
 
   pinMode(buttonPinOpen, INPUT_PULLUP);
   pinMode(buttonPinClose, INPUT_PULLUP);
+  pinMode(buttonPinEmergencyShutdown, INPUT_PULLUP);
 
 }
 
 void loop() {
+  buttonStateEmergencyShutdown = digitalRead(buttonPinEmergencyShutdown);
+  if (buttonStateEmergencyShutdown == 0) {
+    offLED();
+    clearDisplay();
+    exit(0);
+  }
   if(RC522.isCard()) {
     readRFID();
     delay(50);
@@ -122,11 +131,32 @@ void loop() {
       delay(2000);
       closeState();
     }
+    if (access == "secondusage") {
+      RLED();
+      oledOut("Запрещено");
+      delay(2000);
+      closeState();
+    }
+  }
+}
+
+void yield() {
+  buttonStateEmergencyShutdown = digitalRead(buttonPinEmergencyShutdown);
+  if (buttonStateEmergencyShutdown == 0) {
+    offLED();
+    clearDisplay();
+    exit(0);
   }
 }
 
 void openGatesStep() {
   while (buttonStateOpen != 0) {
+    buttonStateEmergencyShutdown = digitalRead(buttonPinEmergencyShutdown);
+    if (buttonStateEmergencyShutdown == 0) {
+      offLED();
+      clearDisplay();
+      exit(0);
+    }
     stepper.step(Steps2Take);
     buttonStateOpen = digitalRead(buttonPinOpen);
   }  
@@ -134,6 +164,12 @@ void openGatesStep() {
 
 void closeGatesStep() {
   while (buttonStateClose != 0) {
+    buttonStateEmergencyShutdown = digitalRead(buttonPinEmergencyShutdown);
+    if (buttonStateEmergencyShutdown == 0) {
+      offLED();
+      clearDisplay();
+      exit(0);
+    }
     stepper.step(-Steps2Take);
     buttonStateClose = digitalRead(buttonPinClose);
     unsigned int distance = 70;
@@ -178,8 +214,13 @@ void GLED() {
   digitalWrite(greenLED, HIGH);
 }
 
-void readRFID()
-{
+void offLED() {
+  digitalWrite(redLED, LOW);
+  digitalWrite(blueLED, LOW);
+  digitalWrite(greenLED, LOW);
+}
+
+void readRFID() {
   
   RC522.readCardSerial();
   uidString = String(RC522.serNum[0] + String("-") + RC522.serNum[1] + String("-") + RC522.serNum[2] + String("-") + RC522.serNum[3]);
@@ -205,6 +246,11 @@ void oledOut(String s) {
   display.setTextSize(1);
   display.setCursor(10,0); 
   display.print("UID: " + uidString); //максимум 9 символов в строке с размером текста 2
+  display.display();
+}
+
+void clearDisplay() {
+  display.clearDisplay();
   display.display();
 }
 
