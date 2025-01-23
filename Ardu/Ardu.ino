@@ -154,7 +154,7 @@ void openGatesStep() {
     buttonStateEmergencyShutdown = digitalRead(buttonPinEmergencyShutdown);
     if (buttonStateEmergencyShutdown == 0) {
       offLED();
-      clearDisplay();
+      clearDisplay(); 
       exit(0);
     }
     stepper.step(Steps2Take);

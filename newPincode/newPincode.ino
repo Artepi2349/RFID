@@ -3,14 +3,16 @@
 #include <Servo.h>
 #include <NewPing.h> // Библиотека для работы с датчиком расстояния
 
-#define servoPin 4
+#define servoPin 3
 
 #define soundPin 5
 
-#define buttonPin 13
+#define buttonPin 2
 
-#define PIN_TRIG 3 // Подключение пина TRIG датчика расстояния
-#define PIN_ECHO 2 // Подключение пина ECHO датчика расстояния
+#define solenoidPin 22
+
+#define PIN_TRIG 43 // Подключение пина TRIG датчика расстояния
+#define PIN_ECHO 41 // Подключение пина ECHO датчика расстояния
 #define MAX_DISTANCE 200 // Константа для определения максимального расстояния, которое мы будем считать корректным
 
 const byte ROWS = 4; // число строк клавиатуры
@@ -45,6 +47,8 @@ void setup() {
   Servo1.attach(servoPin);
   pinMode(soundPin, OUTPUT);
   pinMode(buttonPin, INPUT_PULLUP);
+  pinMode(solenoidPin, OUTPUT);
+  digitalWrite(solenoidPin, LOW);
 }
 
 void loop() {
@@ -63,7 +67,12 @@ void loop() {
     if (k == 4) { 
       if (buttons[0] == pass[0] && buttons[1] == pass[1] && buttons[2] == pass[2] && buttons[3] == pass[3]) { 
         Serial.print("Access granted!"); // если пароль совпал
+        digitalWrite(soundPin, 50);
+        delay(1000);
+        digitalWrite(soundPin, 0);
         k=0;
+        digitalWrite(solenoidPin, HIGH);
+        delay(500);
         Servo1.write(0);
         delay(2000);
         Servo1.write(90);
@@ -81,9 +90,22 @@ void loop() {
         Servo1.write(180);
         delay(2000);
         Servo1.write(90);
+        delay(500);
+        digitalWrite(solenoidPin, LOW);
       }
       else {
         Serial.print("Access denied!"); // если пароль не верен
+        digitalWrite(soundPin, 50);
+        delay(1000);
+        digitalWrite(soundPin, 0);
+        delay(500);
+        digitalWrite(soundPin, 50);
+        delay(1000);
+        digitalWrite(soundPin, 0);
+        delay(500);
+        digitalWrite(soundPin, 50);
+        delay(1000);
+        digitalWrite(soundPin, 0);
         k=0;
       }
     }
