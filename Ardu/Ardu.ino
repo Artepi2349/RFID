@@ -15,8 +15,8 @@
 #define redLED 4
 
 #define buttonPinEmergencyShutdown 5
-#define buttonPinOpen 7
 #define buttonPinClose 6
+#define buttonPinOpen 7
 
 #define OLED_RESET 20  // Подключение пина SDA OLED-экрана
 
@@ -54,7 +54,9 @@ int Steps2Take  =  STEPS_PER_OUTPUT_REVOLUTION / 8;  // Повернуть CW 1/
 int buttonStateOpen = digitalRead(buttonPinOpen);
 int buttonStateClose = digitalRead(buttonPinClose);
 int buttonStateEmergencyShutdown = digitalRead(buttonPinEmergencyShutdown);
-int close = 1;               
+
+bool close = true;
+bool stepFlag = false;
 
 void setup() {
   
@@ -86,7 +88,7 @@ void loop() {
   if (buttonStateEmergencyShutdown == 0) {
     offLED();
     clearDisplay();
-    exit(0);
+    emergencyShutdown();
   }
   if(RC522.isCard()) {
     readRFID();
@@ -99,6 +101,7 @@ void loop() {
       access = "denied";
       oledOut("Разрешён");
       GLED();
+      delay(1000);
       openGatesStep();
       buttonStateOpen = 1;
       unsigned int distance = 30;
@@ -110,14 +113,14 @@ void loop() {
         distance = sonar.ping_cm();
         delay(500);
       }
-      while (close == 1) {
-        close = 0;
+      while (close == true) {
+        close = false;
         closeGatesStep();
       }
       closeState();                   
       buttonStateClose = 1;
       buttonStateOpen = 1;
-      close=1;
+      close=true;
     }
     if (access == "dateout") {
       BLED();
@@ -145,17 +148,18 @@ void yield() {
   if (buttonStateEmergencyShutdown == 0) {
     offLED();
     clearDisplay();
-    exit(0);
+    emergencyShutdown();
   }
 }
 
 void openGatesStep() {
   while (buttonStateOpen != 0) {
     buttonStateEmergencyShutdown = digitalRead(buttonPinEmergencyShutdown);
+    blink();
     if (buttonStateEmergencyShutdown == 0) {
       offLED();
       clearDisplay(); 
-      exit(0);
+      emergencyShutdown();
     }
     stepper.step(Steps2Take);
     buttonStateOpen = digitalRead(buttonPinOpen);
@@ -165,10 +169,11 @@ void openGatesStep() {
 void closeGatesStep() {
   while (buttonStateClose != 0) {
     buttonStateEmergencyShutdown = digitalRead(buttonPinEmergencyShutdown);
+    blink();
     if (buttonStateEmergencyShutdown == 0) {
       offLED();
       clearDisplay();
-      exit(0);
+      emergencyShutdown();
     }
     stepper.step(-Steps2Take);
     buttonStateClose = digitalRead(buttonPinClose);
@@ -189,7 +194,7 @@ void closeGatesStep() {
       //while (buttonStateOpen != 0) {
         //stepper.step(Steps2Take);
         //buttonStateOpen = digitalRead(buttonPinOpen);
-        //close = 1;
+        //close = true;
       //}
       //buttonStateOpen = 1;
     }
@@ -214,10 +219,26 @@ void GLED() {
   digitalWrite(greenLED, HIGH);
 }
 
+void WLED() {
+  digitalWrite(redLED, HIGH);
+  digitalWrite(blueLED, HIGH);
+  digitalWrite(greenLED, HIGH);
+}
+
 void offLED() {
   digitalWrite(redLED, LOW);
   digitalWrite(blueLED, LOW);
   digitalWrite(greenLED, LOW);
+}
+
+void blink() {
+  stepFlag = !stepFlag;
+    if (stepFlag == true) {
+      WLED();
+    }
+    if (stepFlag == false) {
+      offLED();
+    }
 }
 
 void readRFID() {
@@ -263,6 +284,10 @@ void closeState() {
   display.setCursor(10,8); 
   display.print(utf8rus("Закрыто")); //максимум 9 символов в строке с размером текста 2
   display.display();
+}
+
+void emergencyShutdown() {
+  exit(0);
 }
 
 String utf8rus(String source) {
