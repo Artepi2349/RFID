@@ -21,13 +21,17 @@
 #define OLED_RESET 20  // Подключение пина SDA OLED-экрана
 
 // Количество шагов на оборот внутреннего двигателя в 4- х ступенчатом режиме
-#define STEPS_PER_MOTOR_REVOLUTION 32     
+#define STEPS_PER_MOTOR_REVOLUTION 200     
 // Число ступеней на оборот выходного вала (=редуктор; 2048 ступеней)
-#define STEPS_PER_OUTPUT_REVOLUTION 32 * 64
+#define STEPS_PER_OUTPUT_REVOLUTION 800
 
 #define PIN_TRIG 43 // Подключение пина TRIG датчика расстояния
 #define PIN_ECHO 41 // Подключение пина ECHO датчика расстояния
 #define MAX_DISTANCE 200 // Константа для определения максимального расстояния, которое мы будем считать корректным
+
+#define pinStep 23
+#define pinDir 22
+
 
 // Создаем объект, методами которого будем затем пользоваться для получения расстояния
 // В качестве параметров передаем номера пинов, к которым подключены выходы ECHO и TRIG датчика
@@ -43,14 +47,14 @@ Adafruit_SSD1306 display(OLED_RESET);
 
 // Создаем объект, методами которого будем затем пользоваться для открытия калитки
 // В качестве параметров передаем количество шагов и номера пинов, к которым подключены выходы мотора
-Stepper stepper(STEPS_PER_MOTOR_REVOLUTION, 10, 12, 11, 13);
-AccelStepper mystepper(STEPS_PER_MOTOR_REVOLUTION, 10, 12, 11, 13);
+Stepper stepper(STEPS_PER_MOTOR_REVOLUTION, pinDir, pinStep);
+AccelStepper mystepper(STEPS_PER_MOTOR_REVOLUTION, pinDir, pinStep);
 
 String access = "denied"; // Переменная для РЗД
 String uidString = ""; // Переменная для хранения UID, получаемого с RFID-считывателя
 String lastUID = ""; // Переменная для хранения UID последнего пропущенного на территорию пользователя
 
-int Steps2Take  =  STEPS_PER_OUTPUT_REVOLUTION / 8;  // Повернуть CW 1/8 оборота
+int Steps2Take  =  STEPS_PER_OUTPUT_REVOLUTION;  // Повернуть CW 1 оборот
 int buttonStateOpen = digitalRead(buttonPinOpen);
 int buttonStateClose = digitalRead(buttonPinClose);
 int buttonStateEmergencyShutdown = digitalRead(buttonPinEmergencyShutdown);
@@ -104,6 +108,7 @@ void loop() {
       delay(1000);
       openGatesStep();
       buttonStateOpen = 1;
+      GLED();
       unsigned int distance = 30;
       while (distance>25) {
         distance = sonar.ping_cm();
@@ -148,7 +153,7 @@ void yield() {
   if (buttonStateEmergencyShutdown == 0) {
     offLED();
     clearDisplay();
-    emergencyShutdown();
+    //emergencyShutdown();
   }
 }
 
