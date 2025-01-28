@@ -1,14 +1,22 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 YaBrowser/24.12.0.0 Safari/537.36" version="26.0.8">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" version="26.0.9">
   <diagram name="Страница — 1" id="q8mDGip7s1-BRB05QUNj">
-    <mxGraphModel dx="1386" dy="783" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="419" dy="207" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="PiPgc0xV5qEKKq1tEoKf-1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="CCRCZuw7MKiPrWqadbhd-1" target="CCRCZuw7MKiPrWqadbhd-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="CCRCZuw7MKiPrWqadbhd-1" value="Ожидание UID" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="130" y="80" width="120" height="80" as="geometry" />
         </mxCell>
         <mxCell id="CCRCZuw7MKiPrWqadbhd-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="CCRCZuw7MKiPrWqadbhd-2" target="CCRCZuw7MKiPrWqadbhd-6" edge="1">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="PiPgc0xV5qEKKq1tEoKf-4" value="Да" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="CCRCZuw7MKiPrWqadbhd-7">
+          <mxGeometry x="-0.0415" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="CCRCZuw7MKiPrWqadbhd-2" value="Получено?" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="150" y="200" width="80" height="80" as="geometry" />
@@ -21,6 +29,11 @@
               <mxPoint x="80" y="240" />
               <mxPoint x="80" y="120" />
             </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PiPgc0xV5qEKKq1tEoKf-3" value="Нет" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="CCRCZuw7MKiPrWqadbhd-5">
+          <mxGeometry x="0.0425" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="CCRCZuw7MKiPrWqadbhd-6" value="Обработка UID" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
