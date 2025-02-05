@@ -14,6 +14,7 @@
 #define greenLED 3
 #define redLED 4
 
+// Подключение пинов кнопок
 #define buttonPinEmergencyShutdown 5
 #define buttonPinClose 6
 #define buttonPinOpen 7
@@ -29,8 +30,9 @@
 #define PIN_ECHO 41 // Подключение пина ECHO датчика расстояния
 #define MAX_DISTANCE 200 // Константа для определения максимального расстояния, которое мы будем считать корректным
 
-#define pinStep 23
-#define pinDir 22
+// Пины для управления шаговым мотором
+#define pinStep 11
+#define pinDir 10
 
 
 // Создаем объект, методами которого будем затем пользоваться для получения расстояния
@@ -55,6 +57,8 @@ String uidString = ""; // Переменная для хранения UID, по
 String lastUID = ""; // Переменная для хранения UID последнего пропущенного на территорию пользователя
 
 int Steps2Take  =  STEPS_PER_OUTPUT_REVOLUTION;  // Повернуть CW 1 оборот
+
+// Переменные для хранения состояния кнопок
 int buttonStateOpen = digitalRead(buttonPinOpen);
 int buttonStateClose = digitalRead(buttonPinClose);
 int buttonStateEmergencyShutdown = digitalRead(buttonPinEmergencyShutdown);
@@ -65,14 +69,14 @@ bool stepFlag = false;
 void setup() {
   
   Serial.begin(9600);
-  SPI.begin(); // Init SPI bus
-  RC522.init(); // Init MFRC522 
+  SPI.begin(); // Инициировать SPI
+  RC522.init(); // Инициировать считыватель
 
-  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // initialize with the I2C addr 0x3D (for the 128x64)
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // Инициализация экрана
 
   display.cp437(true); // для русского текста
 
-  // Clear the buffer.
+  
   closeState();
 
   pinMode(blueLED, OUTPUT);
@@ -88,16 +92,16 @@ void setup() {
 }
 
 void loop() {
-  buttonStateEmergencyShutdown = digitalRead(buttonPinEmergencyShutdown);
+  buttonStateEmergencyShutdown = digitalRead(buttonPinEmergencyShutdown); // Проверка нажатия кнопки аварийного выключения
   if (buttonStateEmergencyShutdown == 0) {
     offLED();
     clearDisplay();
     emergencyShutdown();
   }
-  if(RC522.isCard()) {
+  if(RC522.isCard()) { // Если карта считана
     readRFID();
     delay(50);
-    if (Serial.available() > 0) {
+    if (Serial.available() > 0) { // Считывание ответа с Serial порта
       access = Serial.readString();
       oledOut("Проверка");
     }
@@ -110,11 +114,11 @@ void loop() {
       buttonStateOpen = 1;
       GLED();
       unsigned int distance = 30;
-      while (distance>25) {
+      while (distance>25) { // Ожидание прохода человека в рамку
         distance = sonar.ping_cm();
         delay(500);
       }
-      while (distance<25) {
+      while (distance<25) { // Ожидание выхода человека из рамки
         distance = sonar.ping_cm();
         delay(500);
       }
@@ -157,7 +161,7 @@ void yield() {
   }
 }
 
-void openGatesStep() {
+void openGatesStep() { // Функция для открытия ворот
   while (buttonStateOpen != 0) {
     buttonStateEmergencyShutdown = digitalRead(buttonPinEmergencyShutdown);
     blink();
@@ -171,7 +175,7 @@ void openGatesStep() {
   }  
 }
 
-void closeGatesStep() {
+void closeGatesStep() { // Функция для закрытия ворот
   while (buttonStateClose != 0) {
     buttonStateEmergencyShutdown = digitalRead(buttonPinEmergencyShutdown);
     blink();
@@ -196,47 +200,50 @@ void closeGatesStep() {
         delay(500);
       }
       buttonStateClose = 1;
-      //while (buttonStateOpen != 0) {
-        //stepper.step(Steps2Take);
-        //buttonStateOpen = digitalRead(buttonPinOpen);
-        //close = true;
-      //}
-      //buttonStateOpen = 1;
+      // Часть кода, которая оказалась ненужна по тз, но она хороша(Если её раскомментировать, то ворота снова откроются и будут ждать проезда объекта)
+      /*
+      while (buttonStateOpen != 0) {
+        stepper.step(Steps2Take);
+        buttonStateOpen = digitalRead(buttonPinOpen);
+        close = true;
+      }
+      buttonStateOpen = 1;
+      */
     }
   }
 }
 
-void RLED() {
+void RLED() { // Функция для включения красного цвета светодиода
   digitalWrite(redLED, HIGH);
   digitalWrite(blueLED, LOW);
   digitalWrite(greenLED, LOW);
 }
 
-void BLED() {
+void BLED() { // Функция для включения синего цвета светодиода
   digitalWrite(redLED, LOW);
   digitalWrite(blueLED, HIGH);
   digitalWrite(greenLED, LOW);
 }
 
-void GLED() {
+void GLED() { // Функция для включения зелёного цвета светодиода
   digitalWrite(redLED, LOW);
   digitalWrite(blueLED, LOW);
   digitalWrite(greenLED, HIGH);
 }
 
-void WLED() {
+void WLED() { // Функция для включения белого цвета светодиода
   digitalWrite(redLED, HIGH);
   digitalWrite(blueLED, HIGH);
   digitalWrite(greenLED, HIGH);
 }
 
-void offLED() {
+void offLED() { // Функция для выключения светодиода
   digitalWrite(redLED, LOW);
   digitalWrite(blueLED, LOW);
   digitalWrite(greenLED, LOW);
 }
 
-void blink() {
+void blink() { // Функция для мигания светодиодом
   stepFlag = !stepFlag;
     if (stepFlag == true) {
       WLED();
@@ -246,7 +253,7 @@ void blink() {
     }
 }
 
-void readRFID() {
+void readRFID() { // Функция для считывания метки и отправки на микрокомпьютер
   
   RC522.readCardSerial();
   uidString = String(RC522.serNum[0] + String("-") + RC522.serNum[1] + String("-") + RC522.serNum[2] + String("-") + RC522.serNum[3]);
@@ -257,7 +264,7 @@ void readRFID() {
   }
 }
 
-void oledOut(String s) {
+void oledOut(String s) { // Функция для вывода на экран
     // Clear the buffer.
   display.clearDisplay();
   display.display();
@@ -275,12 +282,12 @@ void oledOut(String s) {
   display.display();
 }
 
-void clearDisplay() {
+void clearDisplay() { // Функция для очистки экрана
   display.clearDisplay();
   display.display();
 }
 
-void closeState() {
+void closeState() { // Функция для начального состояния ворот
   RLED();
   display.clearDisplay();
   display.display();
@@ -291,11 +298,11 @@ void closeState() {
   display.display();
 }
 
-void emergencyShutdown() {
+void emergencyShutdown() { // Функция для выхода из программы 
   exit(0);
 }
 
-String utf8rus(String source) {
+String utf8rus(String source) { // Функция для перевода в русский текст
   int i,k;
   String target;
   unsigned char n;
