@@ -1,0 +1,215 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 YaBrowser/24.12.0.0 Safari/537.36" version="26.0.11">
+  <diagram name="Страница — 1" id="VTpUu14SS6Ktj-Iox-bN">
+    <mxGraphModel dx="2807" dy="1119" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="u_Rvekia3drU_L53Lxpe-2" target="u_Rvekia3drU_L53Lxpe-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="960" y="1330" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="720" y="1010" />
+              <mxPoint x="720" y="1010" />
+            </Array>
+            <mxPoint x="1220" y="680" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" target="Hen97qG7PZyWvNh6N_9h-15" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="674.5" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="Hen97qG7PZyWvNh6N_9h-15" target="uHprp-uEnb_70z2iTnrJ-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-15" value="Считывание UID карты,поднесённой к считывателю" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="340" y="730" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-28" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="uHprp-uEnb_70z2iTnrJ-3" target="Hen97qG7PZyWvNh6N_9h-34" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="600" y="870" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-33" value="Нет" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="Hen97qG7PZyWvNh6N_9h-28" vertex="1" connectable="0">
+          <mxGeometry x="-0.1424" y="2" relative="1" as="geometry">
+            <mxPoint x="-2" y="2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-47" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="uHprp-uEnb_70z2iTnrJ-7" target="Hen97qG7PZyWvNh6N_9h-46" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="940" as="sourcePoint" />
+            <mxPoint x="440" y="1030" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="430" y="960" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-48" value="Нет" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="Hen97qG7PZyWvNh6N_9h-47" vertex="1" connectable="0">
+          <mxGeometry x="-0.2036" y="-1" relative="1" as="geometry">
+            <mxPoint x="58" y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-50" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="uHprp-uEnb_70z2iTnrJ-4" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="870" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="30" y="840" />
+              <mxPoint x="30" y="840" />
+            </Array>
+            <mxPoint y="840" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-51" value="Да" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="Hen97qG7PZyWvNh6N_9h-50" vertex="1" connectable="0">
+          <mxGeometry x="-0.0959" y="2" relative="1" as="geometry">
+            <mxPoint x="-9" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-39" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="Hen97qG7PZyWvNh6N_9h-34" target="Hen97qG7PZyWvNh6N_9h-36" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-34" value="Вывод на экран сообщения о недопуске на закрытую территорию" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="510" y="960" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-40" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="Hen97qG7PZyWvNh6N_9h-36" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="1330" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="660" y="1330" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-36" value="Переход в режим готовности считывания" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="515" y="1080" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-76" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="Hen97qG7PZyWvNh6N_9h-46" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="430" y="1180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-46" value="Вывод на экран сообщения о разрешении проезда на территорию" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="370" y="1040" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-56" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="Hen97qG7PZyWvNh6N_9h-49" target="Hen97qG7PZyWvNh6N_9h-55" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-49" value="Включение синей лампочки светодиодом" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="-120" y="810" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-52" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="uHprp-uEnb_70z2iTnrJ-7" target="Hen97qG7PZyWvNh6N_9h-66" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="80" y="960" as="sourcePoint" />
+            <mxPoint x="-130" y="1080" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="160" y="960" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-54" value="Да" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="Hen97qG7PZyWvNh6N_9h-52" vertex="1" connectable="0">
+          <mxGeometry x="-0.1605" relative="1" as="geometry">
+            <mxPoint x="80" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pVPr2zvG9lTuPeoMfbXg-1" value="Да" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="Hen97qG7PZyWvNh6N_9h-52" vertex="1" connectable="0">
+          <mxGeometry x="0.127" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-58" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="Hen97qG7PZyWvNh6N_9h-55" target="Hen97qG7PZyWvNh6N_9h-57" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-55" value="Вывод на экран сообщения о истечении срока использования карты" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="-125" y="970" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="u_Rvekia3drU_L53Lxpe-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="Hen97qG7PZyWvNh6N_9h-57" target="u_Rvekia3drU_L53Lxpe-5" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-60" y="1320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-57" value="Переход в режим готовности считывания" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="-120" y="1130" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-68" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="Hen97qG7PZyWvNh6N_9h-66" target="Hen97qG7PZyWvNh6N_9h-67" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-66" value="Вывод на экран сообщения о запрете повторного использования карты" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="95" y="1030" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="u_Rvekia3drU_L53Lxpe-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="Hen97qG7PZyWvNh6N_9h-67" target="u_Rvekia3drU_L53Lxpe-7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-67" value="Переход в режим готовности считывания" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="100" y="1130" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-79" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="Hen97qG7PZyWvNh6N_9h-77" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="430" y="1320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Hen97qG7PZyWvNh6N_9h-77" value="Включение зелёной лампочки светодиодом" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="370" y="1180" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uHprp-uEnb_70z2iTnrJ-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="uHprp-uEnb_70z2iTnrJ-3" target="uHprp-uEnb_70z2iTnrJ-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uHprp-uEnb_70z2iTnrJ-6" value="Да" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="uHprp-uEnb_70z2iTnrJ-5" vertex="1" connectable="0">
+          <mxGeometry x="0.0622" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uHprp-uEnb_70z2iTnrJ-3" value="Карточка есть в БД?" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="360" y="800" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="uHprp-uEnb_70z2iTnrJ-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="uHprp-uEnb_70z2iTnrJ-4" target="uHprp-uEnb_70z2iTnrJ-7" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="205" y="910" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uHprp-uEnb_70z2iTnrJ-9" value="Нет" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="uHprp-uEnb_70z2iTnrJ-8" vertex="1" connectable="0">
+          <mxGeometry x="-0.1649" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uHprp-uEnb_70z2iTnrJ-4" value="Срок использования истёк?" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="150" y="785" width="110" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="uHprp-uEnb_70z2iTnrJ-7" value="Карта использовалась сегодня?" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="180" y="910" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="uHprp-uEnb_70z2iTnrJ-10" value="" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.annotation_1;align=left;pointerEvents=1;" parent="1" vertex="1">
+          <mxGeometry x="520" y="720" width="50" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="uHprp-uEnb_70z2iTnrJ-11" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="uHprp-uEnb_70z2iTnrJ-10" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="420" y="820" as="sourcePoint" />
+            <mxPoint x="470" y="770" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uHprp-uEnb_70z2iTnrJ-12" value="&#xa;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: normal; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;&quot;&gt;Проверка наличия UID карты в БД микрокомпьютером&lt;/span&gt;&#xa;&#xa;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="560" y="755" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="u_Rvekia3drU_L53Lxpe-1" value="1" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="390" y="660" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="u_Rvekia3drU_L53Lxpe-2" value="2" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="710" y="660" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="u_Rvekia3drU_L53Lxpe-3" value="6" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="710" y="1320" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="u_Rvekia3drU_L53Lxpe-4" value="5" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="420" y="1320" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="u_Rvekia3drU_L53Lxpe-5" value="3" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="-70" y="1320" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="u_Rvekia3drU_L53Lxpe-7" value="4" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="150" y="1320" width="20" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
